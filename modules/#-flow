@@ -1,0 +1,13 @@
+1. OSDetector 
+2. VirtualEnvCreator
+3. DjangoInstaller
+4. ProjectCreator
+5. AppCreator
+6. SettingsModifier
+7. EnvManager
+8. MigrationManager
+9. RequirementsGenerator
+10. HomePageRenderer
+11. ServerRunner
+
+ 
