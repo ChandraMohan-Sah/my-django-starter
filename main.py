@@ -40,12 +40,12 @@ def main():
     ])
 
     # Execute pipeline
-    pipeline.execute(context)
+    pipeline.build_all(context)
 
     # Create marker file to indicate my-django-starter project
-    project_path = os.path.join(os.getcwd(), context['project_name'])
-    with open(os.path.join(project_path, ".mydjangostarter"), "w") as f:
-        f.write("This project was created with my-django-starter.")
+    # project_path = os.path.join(os.getcwd(), context['project_name'])
+    # with open(os.path.join(project_path, ".mydjangostarter"), "w") as f:
+    #     f.write("This project was created with my-django-starter.")
 
 if __name__ == "__main__":
     main()
