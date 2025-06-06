@@ -1,7 +1,7 @@
 # my_django_starter/main.py
 import os
 from modules.banner.banner import Banner
-from modules.os_detector import OSDetector
+from modules.os_detector.os_detector import OSDetector
 from modules.virtualenv_creator.virtualenv_creator import VirtualEnvCreator
 from modules.django_installer import DjangoInstaller
 from modules.project_creator import ProjectCreator
