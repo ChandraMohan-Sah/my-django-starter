@@ -1,30 +1,53 @@
-My Django Starter
-A CLI tool to bootstrap Django projects with a pre-configured setup, including virtual environment, apps, media handling, and a Tailwind CSS homepage.
-Installation
-pip install my-django-starter
+# 🛠️ my-django-starter
 
-Usage
-my-django-starter project_name --apps app1 app2
+A command-line helper tool to quickly scaffold, configure, and run Django projects using a clean, pluggable step-based pipeline system.
+
+---
+
+## 📁 Project Structure
 
 
-project_name: Name of the Django project.
---apps: List of apps to create (default: blog, shop).
+---
 
-Features
+## 🧩 Core Components
 
-Creates a Django project with a virtual environment.
-Configures settings, URLs, .env, and .gitignore.
-Sets up a home app with a Tailwind CSS homepage.
-Configures media file handling (MEDIA_URL, MEDIA_ROOT).
-Applies database migrations and starts the development server.
+### ✅ Step (base class)
 
-Requirements
+- Defined in: `builder/base.py`
+- Abstract class defining the `execute(context)` method.
+- All project steps inherit from this class.
 
-Python 3.8+
-pip
+### ✅ Concrete Steps
 
-Extending the Project
+- Examples: `Banner`, `OSDetector`, `VenvCreator`, `DjangoInstaller`, `ServerRunner`, etc.
+- Inherit from `Step` and implement `execute()`.
+- Each step performs a single responsibility in the setup pipeline.
 
-Add a simple app: pip install starter-extend-app
-Add a media upload app: pip install starter-extend-media-app
+### ✅ Pipeline (composition)
 
+- Holds a list of `Step` instances.
+- Calls `execute(context)` for each step in sequence.
+- Handles exceptions gracefully and displays error messages using `status_tag`.
+
+### ✅ main.py (orchestration)
+
+- Imports and arranges steps into a pipeline.
+- Calls `pipeline.run()` to execute all steps.
+- Optionally writes a `.success_marker` file after successful execution.
+
+---
+
+## 🔁 Relationships
+
+| Concept       | Description                                                   |
+|---------------|---------------------------------------------------------------|
+| Inheritance   | All steps inherit from `Step`.                                |
+| Composition   | `Pipeline` is composed of multiple `Step` instances.          |
+| Reusability   | Steps are modular and easily swappable.                       |
+
+---
+
+## 🚀 Usage
+
+```bash
+$ python3 main.py
