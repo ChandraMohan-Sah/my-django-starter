@@ -41,7 +41,6 @@ def main():
 
     # Execute pipeline
     pipeline.build_all(context)
-    
 
 if __name__ == "__main__":
     main()
