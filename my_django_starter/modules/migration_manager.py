@@ -23,7 +23,7 @@ class MigrationManager(Step):
 
         # Run makemigrations for all apps
         try:
-            type_writer("[🔧 RUNNING python manage.py makemigrations...]", color="CYAN")
+            status_tag("[🔧 RUNNING python manage.py makemigrations...]", color="CYAN")
             print()
             subprocess.run([python_cmd, manage_py, "makemigrations"], check=True)
             status_tag(f"INITIAL MIGRATIONS CREATED FOR APPS: {', '.join(app_names)}", symbol="✅", color="GREEN")
@@ -34,7 +34,7 @@ class MigrationManager(Step):
 
         # Run migrate to apply migrations
         try:
-            type_writer("[🔧 RUNNING python manage.py migrate...]", color="CYAN")
+            status_tag("[🔧 RUNNING python manage.py migrate...]", color="CYAN")
             print()
             subprocess.run([python_cmd, manage_py, "migrate"], check=True)
             status_tag("MIGRATIONS APPLIED TO DATABASE", symbol="✅", color="GREEN")

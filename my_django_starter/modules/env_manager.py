@@ -16,7 +16,7 @@ class EnvManager(Step):
             raise ValueError("Required context data (venv_path, project_path, or project_name) missing!")
 
         print()  # Spacing
-        type_writer("[🔧 CONFIGURING ENVIRONMENT AND SECRET KEY...]", color="CYAN")
+        status_tag("[🔧 CONFIGURING ENVIRONMENT AND SECRET KEY...]", color="CYAN")
         print()
 
         # Determine pip path based on OS
@@ -25,7 +25,7 @@ class EnvManager(Step):
 
         # Install python-decouple
         try:
-            type_writer("[🔧 INSTALLING python-decouple...]", color="CYAN")
+            status_tag("[🔧 INSTALLING python-decouple...]", color="CYAN")
             print()
             subprocess.run([pip_cmd, "install", "python-decouple"], check=True)
             status_tag("python-decouple INSTALLED", symbol="✅", color="GREEN")
@@ -40,7 +40,7 @@ class EnvManager(Step):
 
         # Extract SECRET_KEY from settings.py
         try:
-            type_writer(f"[🔧 READING {settings_path} FOR SECRET_KEY...]", color="CYAN")
+            status_tag(f"[🔧 READING {settings_path} FOR SECRET_KEY...]", color="CYAN")
             print()
             with open(settings_path, "r") as f:
                 settings_content = f.readlines()
@@ -64,7 +64,7 @@ class EnvManager(Step):
 
         # Update settings.py to use python-decouple
         try:
-            type_writer(f"[🔧 UPDATING {settings_path} WITH python-decouple...]", color="CYAN")
+            status_tag(f"[🔧 UPDATING {settings_path} WITH python-decouple...]", color="CYAN")
             print()
             settings_content[secret_key_line] = "SECRET_KEY = config('SECRET_KEY')\n"
             settings_content.insert(0, "from decouple import config\n")
@@ -79,7 +79,7 @@ class EnvManager(Step):
 
         # Create .env file with SECRET_KEY
         try:
-            type_writer(f"[🔧 CREATING {env_path} WITH SECRET_KEY...]", color="CYAN")
+            status_tag(f"[🔧 CREATING {env_path} WITH SECRET_KEY...]", color="CYAN")
             print()
             with open(env_path, "w") as f:
                 f.write(f"SECRET_KEY={secret_key}\n")
@@ -92,7 +92,7 @@ class EnvManager(Step):
         # Create .gitignore file
         gitignore_path = os.path.join(project_path, ".gitignore")
         try:
-            type_writer(f"[🔧 CREATING {gitignore_path}...]", color="CYAN")
+            status_tag(f"[🔧 CREATING {gitignore_path}...]", color="CYAN")
             print()
             venv_name = os.path.basename(venv_path)
             gitignore_content = f"""# Virtual environment

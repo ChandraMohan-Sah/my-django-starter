@@ -22,7 +22,7 @@ class RequirementsGenerator(Step):
 
         # Run pip freeze and save to requirements.txt
         try:
-            type_writer(f"[🔧 CREATING {requirements_path}...]", color="CYAN")
+            status_tag(f"[🔧 CREATING {requirements_path}...]", color="CYAN")
             print()
             with open(requirements_path, "w") as f:
                 subprocess.run([pip_cmd, "freeze"], stdout=f, check=True)
@@ -32,5 +32,5 @@ class RequirementsGenerator(Step):
             status_tag("ERROR GENERATING requirements.txt", symbol="❌", color="RED")
             raise
 
-        type_writer("[✅ REQUIREMENTS FILE GENERATED]", color="GREEN")
+        status_tag("[✅ REQUIREMENTS FILE GENERATED]", color="GREEN")
         print()

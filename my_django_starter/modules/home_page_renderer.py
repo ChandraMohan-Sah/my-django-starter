@@ -26,7 +26,7 @@ class HomePageRenderer(Step):
         # Create home app
         home_app_name = "home"
         try:
-            type_writer(f"[🔧 CREATING APP '{home_app_name}'...]", color="CYAN")
+            status_tag(f"[🔧 CREATING APP '{home_app_name}'...]", color="CYAN")
             print()
             subprocess.run([python_cmd, manage_py, "startapp", home_app_name], check=True)
             status_tag(f"APP '{home_app_name}' CREATED", symbol="✅", color="GREEN")
@@ -43,7 +43,7 @@ class HomePageRenderer(Step):
 
         # Create directories
         try:
-            type_writer(f"[🔧 CREATING DIRECTORIES FOR APP '{home_app_name}'...]", color="CYAN")
+            status_tag(f"[🔧 CREATING DIRECTORIES FOR APP '{home_app_name}'...]", color="CYAN")
             print()
             os.makedirs(api_path, exist_ok=True)
             os.makedirs(templates_path, exist_ok=True)
@@ -58,7 +58,7 @@ class HomePageRenderer(Step):
 
         # Create api_of_home files
         try:
-            type_writer(f"[🔧 CREATING API FILES FOR APP '{home_app_name}'...]", color="CYAN")
+            status_tag(f"[🔧 CREATING API FILES FOR APP '{home_app_name}'...]", color="CYAN")
             print()
             with open(os.path.join(api_path, "serializers.py"), "w") as f:
                 f.write("# serializers.py\n\n")
@@ -86,7 +86,7 @@ urlpatterns = [
 
         # Create home.html
         try:
-            type_writer(f"[🔧 CREATING home.html FOR APP '{home_app_name}'...]", color="CYAN")
+            status_tag(f"[🔧 CREATING home.html FOR APP '{home_app_name}'...]", color="CYAN")
             print()
             with open(os.path.join(templates_path, "home.html"), "w") as f:
                 f.write("""{% extends 'base.html' %}
@@ -114,7 +114,7 @@ urlpatterns = [
 
         # Keep only specified files and delete others
         try:
-            type_writer(f"[🔧 RESTRUCTURING APP '{home_app_name}'...]", color="CYAN")
+            status_tag(f"[🔧 RESTRUCTURING APP '{home_app_name}'...]", color="CYAN")
             print()
             allowed_files = {
                 "__init__.py",
@@ -141,7 +141,7 @@ urlpatterns = [
         # Update settings.py to add home app to INSTALLED_APPS
         settings_path = os.path.join(project_path, project_name, "settings.py")
         try:
-            type_writer(f"[🔧 UPDATING {settings_path} WITH '{home_app_name}' APP...]", color="CYAN")
+            status_tag(f"[🔧 UPDATING {settings_path} WITH '{home_app_name}' APP...]", color="CYAN")
             print()
             with open(settings_path, "r") as f:
                 settings_content = f.readlines()
@@ -172,7 +172,7 @@ urlpatterns = [
         # Update urls.py to include home app URLs
         urls_path = os.path.join(project_path, project_name, "urls.py")
         try:
-            type_writer(f"[🔧 UPDATING {urls_path} WITH HOME ROUTE...]", color="CYAN")
+            status_tag(f"[🔧 UPDATING {urls_path} WITH HOME ROUTE...]", color="CYAN")
             print()
             with open(urls_path, "r") as f:
                 urls_content = f.readlines()
