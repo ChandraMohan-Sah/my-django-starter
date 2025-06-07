@@ -1,7 +1,7 @@
 # modules/banner.py
 import shutil
 from pyfiglet import Figlet
-from builder.base import Step
+from my_django_starter.builder.base import Step
 from abc import ABC, abstractmethod
 
 

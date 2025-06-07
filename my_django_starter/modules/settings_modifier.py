@@ -1,7 +1,7 @@
 # modules/settings_modifier.py
 import os
-from builder.base import Step
-from animations.terminal_fx import status_tag
+from my_django_starter.builder.base import Step
+from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 class SettingsModifier(Step):
     def execute(self, context: dict):

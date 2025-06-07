@@ -1,8 +1,8 @@
 # modules/server_runner.py
 import os
 import subprocess
-from builder.base import Step
-from animations.terminal_fx import status_tag, type_writer
+from my_django_starter.builder.base import Step
+from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 class ServerRunner(Step):
     def execute(self, context: dict):

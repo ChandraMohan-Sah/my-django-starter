@@ -1,6 +1,6 @@
 # my_django_starter/builder/pipeline.py
 from .base import Step
-from animations.terminal_fx import status_tag
+from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 class Pipeline:
     def __init__(self, steps: list[Step]):
