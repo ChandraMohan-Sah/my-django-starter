@@ -1,9 +1,7 @@
-# modules/env_manager.py
 import os
 import subprocess
 import re
 from my_django_starter.builder.base import Step
-from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 class EnvManager(Step):
     def execute(self, context: dict):
@@ -12,12 +10,7 @@ class EnvManager(Step):
         project_path = context.get('project_path')
         project_name = context.get('project_name')
         if not venv_path or not project_path or not project_name:
-            status_tag("Required context data (venv_path, project_path, or project_name) missing!", symbol="❌", color="RED")
             raise ValueError("Required context data (venv_path, project_path, or project_name) missing!")
-
-        print()  # Spacing
-        status_tag("[🔧 CONFIGURING ENVIRONMENT AND SECRET KEY...]", color="CYAN")
-        print()
 
         # Determine pip path based on OS
         os_name = context.get('os', '').lower()
@@ -25,13 +18,8 @@ class EnvManager(Step):
 
         # Install python-decouple
         try:
-            status_tag("[🔧 INSTALLING python-decouple...]", color="CYAN")
-            print()
             subprocess.run([pip_cmd, "install", "python-decouple"], check=True)
-            status_tag("python-decouple INSTALLED", symbol="✅", color="GREEN")
-            print()
         except subprocess.CalledProcessError:
-            status_tag("ERROR INSTALLING python-decouple", symbol="❌", color="RED")
             raise
 
         # Paths to settings.py and .env
@@ -40,8 +28,6 @@ class EnvManager(Step):
 
         # Extract SECRET_KEY from settings.py
         try:
-            status_tag(f"[🔧 READING {settings_path} FOR SECRET_KEY...]", color="CYAN")
-            print()
             with open(settings_path, "r") as f:
                 settings_content = f.readlines()
 
@@ -56,44 +42,30 @@ class EnvManager(Step):
                     break
 
             if secret_key is None or secret_key_line is None:
-                status_tag("SECRET_KEY not found in settings.py!", symbol="❌", color="RED")
                 raise ValueError("SECRET_KEY not found in settings.py!")
         except IOError:
-            status_tag(f"ERROR READING {settings_path}", symbol="❌", color="RED")
             raise
 
         # Update settings.py to use python-decouple
         try:
-            status_tag(f"[🔧 UPDATING {settings_path} WITH python-decouple...]", color="CYAN")
-            print()
             settings_content[secret_key_line] = "SECRET_KEY = config('SECRET_KEY')\n"
             settings_content.insert(0, "from decouple import config\n")
 
             with open(settings_path, "w") as f:
                 f.writelines(settings_content)
-            status_tag(f"UPDATED {settings_path} WITH python-decouple", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR UPDATING {settings_path}", symbol="❌", color="RED")
             raise
 
         # Create .env file with SECRET_KEY
         try:
-            status_tag(f"[🔧 CREATING {env_path} WITH SECRET_KEY...]", color="CYAN")
-            print()
             with open(env_path, "w") as f:
                 f.write(f"SECRET_KEY={secret_key}\n")
-            status_tag(f"CREATED {env_path} WITH SECRET_KEY", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR CREATING {env_path}", symbol="❌", color="RED")
             raise
 
         # Create .gitignore file
         gitignore_path = os.path.join(project_path, ".gitignore")
         try:
-            status_tag(f"[🔧 CREATING {gitignore_path}...]", color="CYAN")
-            print()
             venv_name = os.path.basename(venv_path)
             gitignore_content = f"""# Virtual environment
 {venv_name}/
@@ -247,11 +219,5 @@ cython_debug/
 """
             with open(gitignore_path, "w") as f:
                 f.write(gitignore_content)
-            status_tag(f"CREATED {gitignore_path}", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR CREATING {gitignore_path}", symbol="❌", color="RED")
             raise
-
-        type_writer("[✅ ENVIRONMENT AND SECRET KEY CONFIGURED]", color="GREEN")
-        print()

@@ -1,7 +1,5 @@
-# modules/settings_modifier.py
 import os
 from my_django_starter.builder.base import Step
-from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 class SettingsModifier(Step):
     def execute(self, context: dict):
@@ -10,42 +8,25 @@ class SettingsModifier(Step):
         project_name = context.get('project_name')
         app_names = context.get('app_names', [])
         if not project_path or not project_name or not app_names:
-            status_tag("Required context data (project_path, project_name, or app_names) missing!", symbol="❌", color="RED")
             raise ValueError("Required context data (project_path, project_name, or app_names) missing!")
-
-        print()  # Spacing
-        status_tag("MODIFYING PROJECT SETTINGS AND URLS...", symbol="🔧", color="CYAN")
-        print()
 
         # Create global static directory
         static_dir = os.path.join(project_path, "static")
         try:
-            status_tag("CREATING GLOBAL STATIC DIRECTORY...", symbol="🔧", color="CYAN")
-            print()
             os.makedirs(static_dir, exist_ok=True)
-            status_tag(f"CREATED GLOBAL STATIC DIRECTORY: {static_dir}", symbol="✅", color="GREEN")
-            print()
         except OSError:
-            status_tag(f"ERROR CREATING STATIC DIRECTORY: {static_dir}", symbol="❌", color="RED")
             raise
 
-        # Create global templates directory and HTML files
+        # Create global templates directory
         templates_dir = os.path.join(project_path, "templates")
         try:
-            status_tag("CREATING GLOBAL TEMPLATES DIRECTORY...", symbol="🔧", color="CYAN")
-            print()
             os.makedirs(templates_dir, exist_ok=True)
-            status_tag(f"CREATED GLOBAL TEMPLATES DIRECTORY: {templates_dir}", symbol="✅", color="GREEN")
-            print()
         except OSError:
-            status_tag(f"ERROR CREATING TEMPLATES DIRECTORY: {templates_dir}", symbol="❌", color="RED")
             raise
         
         # Create base.html with Tailwind CSS
         base_html_path = os.path.join(templates_dir, "base.html")
         try:
-            status_tag("CREATING BASE.HTML...", symbol="🔧", color="CYAN")
-            print()
             with open(base_html_path, "w") as f:
                 f.write("""<!DOCTYPE html>
 <html lang="en">
@@ -64,17 +45,12 @@ class SettingsModifier(Step):
 </body>
 </html>
 """)
-            status_tag(f"CREATED {base_html_path}", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR CREATING {base_html_path}", symbol="❌", color="RED")
             raise
 
         # Create 404.html
         not_found_html_path = os.path.join(templates_dir, "404.html")
         try:
-            status_tag("CREATING 404.HTML...", symbol="🔧", color="CYAN")
-            print()
             with open(not_found_html_path, "w") as f:
                 f.write("""<!DOCTYPE html>
 <html lang="en">
@@ -93,10 +69,7 @@ class SettingsModifier(Step):
 </body>
 </html>
 """)
-            status_tag(f"CREATED {not_found_html_path}", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR CREATING {not_found_html_path}", symbol="❌", color="RED")
             raise
 
         # Paths to settings.py and urls.py
@@ -105,8 +78,6 @@ class SettingsModifier(Step):
 
         # --- Update settings.py ---
         try:
-            status_tag(f"UPDATING {settings_path}...", symbol="🔧", color="CYAN")
-            print()
             with open(settings_path, "r") as f:
                 settings_content = f.readlines()
 
@@ -118,7 +89,6 @@ class SettingsModifier(Step):
                     break
 
             if installed_apps_line is None:
-                status_tag("INSTALLED_APPS not found in settings.py!", symbol="❌", color="RED")
                 raise ValueError("INSTALLED_APPS not found in settings.py!")
 
             # Insert app names before the closing bracket of INSTALLED_APPS
@@ -136,7 +106,6 @@ class SettingsModifier(Step):
                     break
 
             if templates_line is None:
-                status_tag("TEMPLATES not found in settings.py!", symbol="❌", color="RED")
                 raise ValueError("TEMPLATES not found in settings.py!")
 
             # Ensure 'DIRS' includes BASE_DIR / 'templates'
@@ -162,16 +131,11 @@ class SettingsModifier(Step):
             # Write updated settings.py
             with open(settings_path, "w") as f:
                 f.writelines(settings_content)
-            status_tag(f"UPDATED {settings_path}", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR UPDATING {settings_path}", symbol="❌", color="RED")
             raise
 
         # --- Update urls.py ---
         try:
-            status_tag(f"UPDATING {urls_path}...", symbol="🔧", color="CYAN")
-            print()
             with open(urls_path, "r") as f:
                 urls_content = f.readlines()
 
@@ -198,11 +162,5 @@ class SettingsModifier(Step):
             # Write updated urls.py
             with open(urls_path, "w") as f:
                 f.writelines(new_urls_content)
-            status_tag(f"UPDATED {urls_path}", symbol="✅", color="GREEN")
-            print()
         except IOError:
-            status_tag(f"ERROR UPDATING {urls_path}", symbol="❌", color="RED")
             raise
-
-        status_tag("PROJECT SETTINGS AND URLS CONFIGURED", symbol="✅", color="GREEN")
-        print()

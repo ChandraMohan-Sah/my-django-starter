@@ -1,7 +1,5 @@
-# modules/media_file_handler.py
 import os
 from my_django_starter.builder.base import Step
-from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 class MediaFileHandler(Step):
     def execute(self, context: dict):
@@ -9,34 +7,22 @@ class MediaFileHandler(Step):
         project_path = context.get('project_path')
         project_name = context.get('project_name')
         if not project_path or not project_name:
-            status_tag("Required context data (project_path or project_name) missing!", symbol="❌", color="RED")
             raise ValueError("Required context data (project_path or project_name) missing!")
-
-        print()  # Spacing
-        type_writer("[🔧 CONFIGURING MEDIA FILE HANDLING...]", color="CYAN")
-        print()
 
         # Define media directory path
         media_path = os.path.join(project_path, "media")
 
         # Create media directory and .gitkeep
         try:
-            type_writer(f"[🔧 CREATING MEDIA DIRECTORY: {media_path}...]", color="CYAN")
-            print()
             os.makedirs(media_path, exist_ok=True)
             with open(os.path.join(media_path, ".gitkeep"), "w") as f:
                 f.write("")
-            status_tag(f"CREATED MEDIA DIRECTORY: {media_path}", symbol="✅", color="GREEN")
-            print()
         except (OSError, IOError):
-            status_tag(f"ERROR CREATING MEDIA DIRECTORY: {media_path}", symbol="❌", color="RED")
             raise
 
         # Update settings.py to add os import, MEDIA_URL, and MEDIA_ROOT
         settings_path = os.path.join(project_path, project_name, "settings.py")
         try:
-            type_writer(f"[🔧 UPDATING {settings_path} WITH MEDIA SETTINGS...]", color="CYAN")
-            print()
             with open(settings_path, "r") as f:
                 settings_content = f.readlines()
 
@@ -55,19 +41,12 @@ class MediaFileHandler(Step):
 
                 with open(settings_path, "w") as f:
                     f.writelines(settings_content)
-                status_tag(f"UPDATED {settings_path} WITH MEDIA SETTINGS", symbol="✅", color="GREEN")
-            else:
-                status_tag(f"MEDIA SETTINGS ALREADY PRESENT IN {settings_path}", symbol="⚠️", color="YELLOW")
-            print()
         except IOError:
-            status_tag(f"ERROR UPDATING {settings_path}", symbol="❌", color="RED")
             raise
 
         # Update urls.py to serve media files in development
         urls_path = os.path.join(project_path, project_name, "urls.py")
         try:
-            type_writer(f"[🔧 UPDATING {urls_path} TO SERVE MEDIA FILES...]", color="CYAN")
-            print()
             with open(urls_path, "r") as f:
                 urls_content = f.readlines()
 
@@ -91,13 +70,5 @@ class MediaFileHandler(Step):
 
                 with open(urls_path, "w") as f:
                     f.writelines(urls_content)
-                status_tag(f"UPDATED {urls_path} TO SERVE MEDIA FILES", symbol="✅", color="GREEN")
-            else:
-                status_tag(f"MEDIA SERVING CONFIGURATION ALREADY PRESENT IN {urls_path}", symbol="⚠️", color="YELLOW")
-            print()
         except IOError:
-            status_tag(f"ERROR UPDATING {urls_path}", symbol="❌", color="RED")
             raise
-
-        type_writer("[✅ MEDIA FILE HANDLING CONFIGURED]", color="GREEN")
-        print()
