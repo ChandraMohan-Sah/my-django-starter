@@ -1,6 +1,6 @@
 import os
 from abc import ABC, abstractmethod
-from builder.base import Step
+from my_django_starter.builder.base import Step
 from .constants import BASE_HTML_CONTENT, NOT_FOUND_HTML_CONTENT, STATIC_SETTINGS, URL_IMPORTS
 
 # Strategy interface

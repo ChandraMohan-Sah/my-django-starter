@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="my-django-starter",
-    version="0.1.1",
-    author="Chandra Mohan Sah ",
+    version="0.1.2",
+    author="Chandra Mohan Sah",
     author_email="csah9628@gmail.com",
     description="A starter kit to quickly scaffold Django projects.",
     long_description=open("README.md").read(),
@@ -15,13 +15,18 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "Framework :: Django",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: MIT License", 
         "Operating System :: OS Independent",
     ],
+    license="MIT",  
     entry_points={
         "console_scripts": [
             "mydjango=my_django_starter.main:main",  # For CLI
         ],
     },
     python_requires='>=3.6',
+    project_urls={  # Optional but recommended
+        "Bug Reports": "https://github.com/ChandraMohan-Sah/my-django-starter/issues",
+        "Source": "https://github.com/ChandraMohan-Sah/my-django-starter",
+    },
 )

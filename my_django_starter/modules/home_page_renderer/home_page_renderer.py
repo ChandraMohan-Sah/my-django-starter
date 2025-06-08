@@ -2,9 +2,9 @@ import os
 import subprocess
 import shutil
 from abc import ABC, abstractmethod
-from builder.base import Step
+from my_django_starter.builder.base import Step
 from .html_content import HOME_HTML , VIEWS_CONTENT , URLS_CONTENT
-from animations.terminal_fx import status_tag, type_writer
+from my_django_starter.animations.terminal_fx import status_tag, type_writer
 
 
 # Strategy: File Creation

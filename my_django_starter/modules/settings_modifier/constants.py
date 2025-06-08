@@ -8,12 +8,10 @@ BASE_HTML_CONTENT = """<!DOCTYPE html>
     <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     {% block content %}
     {% endblock %}
-    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
 """

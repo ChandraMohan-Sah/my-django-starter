@@ -1,7 +1,7 @@
 # modules/os_detector.py
 import platform
-from builder.base import Step
-from animations.terminal_fx import status_tag
+from my_django_starter.builder.base import Step
+from my_django_starter.animations.terminal_fx import status_tag
 
 class OSDetector(Step):
     def execute(self, context: dict):

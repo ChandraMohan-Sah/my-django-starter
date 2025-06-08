@@ -1,6 +1,6 @@
 import os
 from abc import ABC, abstractmethod
-from builder.base import Step
+from my_django_starter.builder.base import Step
 
 # Strategy: Directory Creation
 class DirectoryCreationStrategy(ABC):
