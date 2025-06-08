@@ -12,8 +12,7 @@ ____ ___  __  __      ____/ / (_)___ _____  ____ _____        _____/ /_____ ____
 
 
 
-## 💻  **System Architecture**
-![Architecture Diagram](https://lucid.app/lucidchart/05ef5f18-8771-4bf5-98f9-a02179d64d49/edit?invitationId=inv_f47c4113-0103-46fb-a9a3-599e8f7245c8&page=0_0#)
+## 💻 [System Architecture : OOP Design](https://lucid.app/lucidchart/05ef5f18-8771-4bf5-98f9-a02179d64d49/edit?invitationId=inv_f47c4113-0103-46fb-a9a3-599e8f7245c8&page=0_0#)
 
 
 ## 🎥 [Live Demo](https://youtu.be/qYoUna9-jEw)
