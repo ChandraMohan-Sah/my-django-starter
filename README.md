@@ -63,14 +63,14 @@ Each setup task is a separate **module**:
 
 ### For Linux/macOS:
 ```bash
-$ pip install my-django-starter==1.0.0  # replace with actual version
+$ pip install my-django-starter==0.1.6  # replace with actual version
 $ mydjango
 ```
 
 
 ### For Windows:
 ```bash
-$ pip install my-django-starter==1.0.0  # replace with actual version
+$ pip install my-django-starter==0.1.6  # replace with actual version
 # Add mydjango.exe to PATH environment variable
 $ mydjango
 ```
