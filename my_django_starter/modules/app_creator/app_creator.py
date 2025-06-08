@@ -3,8 +3,8 @@ import re
 import shutil
 import subprocess
 from abc import ABC, abstractmethod
-from my_django_starter.builder.base import Step
-from my_django_starter.animations.terminal_fx import status_tag, type_writer
+from builder.base import Step
+from animations.terminal_fx import status_tag, type_writer
 from .constants import SERIALIZERS_PY_CONTENT, VIEWS_PY_CONTENT, URLS_PY_CONTENT, ALLOWED_APP_FILES
 
 
@@ -61,6 +61,7 @@ class InputValidationStrategy(AppCreationStrategy):
     def _get_app_names(self, total_apps):
         app_names = []
         for i in range(total_apps):
+            print()
             while True:
                 app_name = input(f"6) NAME OF APP{i+1}: ").strip()
                 print()

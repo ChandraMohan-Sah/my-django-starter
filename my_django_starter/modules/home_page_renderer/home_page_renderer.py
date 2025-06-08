@@ -2,8 +2,9 @@ import os
 import subprocess
 import shutil
 from abc import ABC, abstractmethod
-from my_django_starter.builder.base import Step
+from builder.base import Step
 from .html_content import HOME_HTML , VIEWS_CONTENT , URLS_CONTENT
+from animations.terminal_fx import status_tag, type_writer
 
 
 # Strategy: File Creation
@@ -184,7 +185,7 @@ class HomePageRenderer(Step):
 
 
 
-   def __init__(self):
+    def __init__(self):
         self.file_strategies = {
             "serializers.py": SerializerFileStrategy(),
             "views.py": ViewsFileStrategy(),
@@ -197,6 +198,9 @@ class HomePageRenderer(Step):
 
 
     def execute(self, context: dict):
+        type_writer("[🔧 CREATING HOME PAGE ...]", color="CYAN")
+        print()
+
         """Template Method: Defines the skeleton of the algorithm."""
         python_cmd = context.get('python_cmd')
         project_path = context.get('project_path')

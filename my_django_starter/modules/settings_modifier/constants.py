@@ -5,6 +5,7 @@ BASE_HTML_CONTENT = """<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Django Project{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -16,6 +17,7 @@ BASE_HTML_CONTENT = """<!DOCTYPE html>
 </body>
 </html>
 """
+
 
 
 

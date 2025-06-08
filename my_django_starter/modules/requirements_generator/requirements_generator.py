@@ -1,9 +1,9 @@
 import os
 import subprocess
-from my_django_starter.builder.base import Step
-from my_django_starter.animations.terminal_fx import status_tag
+from builder.base import Step
+from animations.terminal_fx import status_tag, type_writer
 
-
+ 
 class RequirementsGenerator(Step):
 
     def _extract_context(self, context):
@@ -18,12 +18,13 @@ class RequirementsGenerator(Step):
         try:
             with open(requirements_path, "w") as f:
                 subprocess.run([pip_cmd, "freeze"], stdout=f, check=True)
-            status_tag("CREATED REQUIREMENTS PATH", symbol="✅", color="GREEN")
         except (subprocess.CalledProcessError, IOError):
             status_tag("ERROR GENERATING requirements.txt", symbol="❌", color="RED")
             raise
 
     def execute(self, context: dict):
+        type_writer("[🔧 GENERATING REQUIREMENTS.TXT ...]", color="CYAN")
+        print()
         pip_cmd, project_path = self._extract_context(context)
         requirements_path = os.path.join(project_path, "requirements.txt")
         self._generate_requirements(pip_cmd, requirements_path)

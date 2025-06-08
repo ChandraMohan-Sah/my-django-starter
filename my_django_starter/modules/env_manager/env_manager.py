@@ -1,7 +1,8 @@
 import os
 import subprocess
 import re
-from my_django_starter.builder.base import Step
+from builder.base import Step
+from animations.terminal_fx import status_tag, type_writer
 from .gitignore_template import GITIGNORE_TEMPLATE
 
 class EnvManager(Step):
@@ -78,6 +79,7 @@ class EnvManager(Step):
         return GITIGNORE_TEMPLATE.format(venv_name=venv_name)
 
     def execute(self, context: dict):
+        type_writer("[🔧 MANAGING ENVIRONMENT VARIABLE ...]", color="CYAN")
         self.context = context
         self._validate_context()
         self._determine_pip_path()

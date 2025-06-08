@@ -1,7 +1,7 @@
 import os
 import subprocess
-from my_django_starter.builder.base import Step
-from my_django_starter.animations.terminal_fx import status_tag
+from builder.base import Step
+from animations.terminal_fx import status_tag, type_writer
 
 class ServerRunner(Step):
     def execute(self, context: dict):
@@ -34,8 +34,11 @@ class ServerRunner(Step):
             process = subprocess.Popen([python_cmd, manage_py, "runserver"])
             host = os.getenv('DJANGO_HOST', '127.0.0.1')
             port = os.getenv('DJANGO_PORT', '8000')
+
             status_tag(f"[✅ DEVELOPMENT SERVER STARTED AT http://{host}:{port}]", color="GREEN")
+            print()
             status_tag("[📌 STOP THE SERVER WITH CTRL+C]", color="YELLOW")
+            print()
             process.wait()
         except subprocess.CalledProcessError as e:
             status_tag("ERROR STARTING DEVELOPMENT SERVER", symbol="❌", color="RED")

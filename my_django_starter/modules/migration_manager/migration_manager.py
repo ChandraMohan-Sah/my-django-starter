@@ -1,17 +1,24 @@
 import os
 import subprocess
-from my_django_starter.builder.base import Step
+from builder.base import Step
+from animations.terminal_fx import status_tag, type_writer
 
 
 class MigrationManager(Step):
 
     def _run_makemigrations(self, python_cmd, manage_py, app_names):
+        type_writer("[🔧 DATABASE SETUP  ...]", color="CYAN")
+        print()
+        type_writer("[🔧 MAKEMIGRATIONS  ...]", color="CYAN")
+        print()
         try:
             subprocess.run([python_cmd, manage_py, "makemigrations"] + app_names, check=True)
         except subprocess.CalledProcessError as e:
             raise RuntimeError("makemigrations failed") from e
 
     def _run_migrate(self, python_cmd, manage_py):
+        type_writer("[🔧 MIGRATE  ...]", color="CYAN")
+        print()
         try:
             subprocess.run([python_cmd, manage_py, "migrate"], check=True)
         except subprocess.CalledProcessError as e:

@@ -1,8 +1,19 @@
 # my_django_starter/html_content.py
 
 HOME_HTML = """{% extends 'base.html' %}
-{% block title %}Django - Home Page App{% endblock %}
+{% block title %}Django - Home Page {% endblock %}
 {% block content %}
+<!-- Inject favicon dynamically -->
+<script>
+    (function() {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.type = 'image/svg+xml';
+        link.href = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg';
+        document.head.appendChild(link);
+    })();
+</script>
+
 <div class="min-h-screen bg-gradient-to-r from-green-900 via-emerald-800 to-lime-700 flex flex-col items-center justify-center text-white">
     <h1 class="text-5xl font-bold mb-4 animate-pulse">Welcome to Your Django Project!</h1>
     <p class="text-xl mb-8">Start with my-django-starter for rapid development.</p>
@@ -16,6 +27,7 @@ HOME_HTML = """{% extends 'base.html' %}
 </div>
 {% endblock %}
 """
+
 
 
 VIEWS_CONTENT = """# views.py
@@ -35,3 +47,4 @@ urlpatterns = [
 ]
 
 """
+
