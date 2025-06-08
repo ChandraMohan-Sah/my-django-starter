@@ -10,28 +10,19 @@ ____ ___  __  __      ____/ / (_)___ _____  ____ _____        _____/ /_____ ____
 
 **A command-line utility for scaffolding and launching Django projects with a complete, modular, and automated setup pipeline.**
 
----
 
-## 🔷 **System Architecture**
+
+## 💻  **System Architecture**
 ![Architecture Diagram](https://lucid.app/lucidchart/05ef5f18-8771-4bf5-98f9-a02179d64d49/edit?invitationId=inv_f47c4113-0103-46fb-a9a3-599e8f7245c8&page=0_0#)
 
----
-```console
-+-------------------------------------------+
-|  [ SCREEN RECORDING PLAYBACK ]           |
-|                                          |
-|  https://youtu.be/qYoUna9-jEw            |
-|                                          |
-|  Type this in terminal to watch:         |
-|  $ xdg-open https://youtu.be/qYoUna9-jEw |
-+------------------------------------------+
-```
+
+## 🎥 [Live Demo](https://youtu.be/qYoUna9-jEw)
 
 ## 🚀 Overview
 
 my-django-starter is a developer-friendly tool that automates the initial setup of Django projects. It handles everything from virtual environment creation to Django installation, project scaffolding, app setup, settings configuration, and server execution — all in one seamless command-line flow.
 
----
+
 
 ## 📦 Features
 
