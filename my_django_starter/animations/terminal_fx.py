@@ -1,4 +1,3 @@
-# animations/terminal_fx.py
 import sys
 import time
 
@@ -13,9 +12,9 @@ COLOR_CODES = {
 def status_tag(text, symbol="🔔", color="YELLOW"):
     color_code = COLOR_CODES.get(color.upper(), "")
     reset_code = COLOR_CODES["RESET"]
-    print(f"{color_code}[{symbol}] {text}{reset_code}")
+    print(f"{color_code}[{symbol}] {text}{reset_code}", flush=True)
 
-def type_writer(text, delay=0.03, color="RESET"):
+def type_writer(text, delay=0.01, color="RESET"):
     color_code = COLOR_CODES.get(color.upper(), "")
     reset_code = COLOR_CODES["RESET"]
     for char in text:
