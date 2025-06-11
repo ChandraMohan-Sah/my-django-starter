@@ -90,6 +90,7 @@ class SettingsUpdateStrategy(ModificationStrategy):
         lines.extend(STATIC_SETTINGS)
         write_lines(settings_path, lines)
 
+
 class UrlsUpdateStrategy(ModificationStrategy):
     def apply(self, context: dict) -> None:
         project_path = context.get('project_path')
@@ -99,18 +100,46 @@ class UrlsUpdateStrategy(ModificationStrategy):
             raise ValueError("Required context data (project_path, project_name, or app_names) missing!")
 
         urls_path = os.path.join(project_path, project_name, "urls.py")
-        url_patterns = ["    path('admin/', admin.site.urls),\n"]
-        url_patterns += [
-            f"    path('{app}/', include('{app}.api_of_{app}.urls')),\n"
-            for app in app_names
-        ]
+        
+        # Read existing urls.py or create default content
+        try:
+            lines = read_lines(urls_path)
+        except FileNotFoundError:
+            lines = URL_IMPORTS.copy()
+            lines.append("\nurlpatterns = [\n")
+            lines.append("    path('admin/', admin.site.urls),\n")
+            lines.append("]\n")
 
-        content = URL_IMPORTS.copy()
-        content.append("urlpatterns = [\n")
-        content.extend(url_patterns)
-        content.append("]\n")
+        # Convert lines to string for checking duplicates
+        content = ''.join(lines)
+        
+        # Prepare new URL patterns
+        new_patterns = []
+        for app in app_names:
+            url_pattern = f"    path('{app}/', include('{app}.api_of_{app}.urls')),\n"
+            if url_pattern not in content:
+                new_patterns.append(url_pattern)
 
-        write_lines(urls_path, content)
+        # Find the closing bracket of urlpatterns
+        for i, line in enumerate(lines):
+            if ']' in line and 'urlpatterns' in content:
+                # Insert new patterns before the closing bracket
+                lines[i:i] = new_patterns
+                break
+        else:
+            # If no closing bracket found, append urlpatterns
+            if 'urlpatterns = [' not in content:
+                lines.append("\nurlpatterns = [\n")
+                lines.append("    path('admin/', admin.site.urls),\n")
+                lines.extend(new_patterns)
+                lines.append("]\n")
+            else:
+                # If urlpatterns exists but no closing bracket, append at the end
+                lines.extend(new_patterns)
+
+        # Write back the updated content
+        write_lines(urls_path, lines)
+
 
 # ---------------------- Context Runner : Client ---------------------- #
 
