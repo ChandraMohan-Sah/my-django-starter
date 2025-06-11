@@ -1,4 +1,6 @@
 import os
+import ast
+
 from abc import ABC, abstractmethod
 from my_django_starter.builder.base import Step
 from .constants import BASE_HTML_CONTENT, NOT_FOUND_HTML_CONTENT, STATIC_SETTINGS, URL_IMPORTS
@@ -96,50 +98,60 @@ class UrlsUpdateStrategy(ModificationStrategy):
         project_path = context.get('project_path')
         project_name = context.get('project_name')
         app_names = context.get('app_names', [])
-        if not project_path or not project_name or not app_names:
-            raise ValueError("Required context data (project_path, project_name, or app_names) missing!")
+
+        if not (project_path and project_name and app_names):
+            raise ValueError("Missing required context: project_path, project_name, or app_names")
 
         urls_path = os.path.join(project_path, project_name, "urls.py")
-        
-        # Read existing urls.py or create default content
+
+        def default_content():
+            return "\n".join(URL_IMPORTS) + "\n\nurlpatterns = [\n    path('admin/', admin.site.urls),\n]\n"
+
+        def generate_app_paths(indent="    "):
+            return [f"{indent}path('{app}/', include('{app}.api_of_{app}.urls')),\n" for app in app_names]
+
         try:
-            lines = read_lines(urls_path)
+            with open(urls_path, "r") as f:
+                content = f.read()
         except FileNotFoundError:
-            lines = URL_IMPORTS.copy()
-            lines.append("\nurlpatterns = [\n")
-            lines.append("    path('admin/', admin.site.urls),\n")
-            lines.append("]\n")
+            content = default_content()
 
-        # Convert lines to string for checking duplicates
-        content = ''.join(lines)
-        
-        # Prepare new URL patterns
-        new_patterns = []
-        for app in app_names:
-            url_pattern = f"    path('{app}/', include('{app}.api_of_{app}.urls')),\n"
-            if url_pattern not in content:
-                new_patterns.append(url_pattern)
+        try:
+            tree = ast.parse(content)
+            lines = content.splitlines(keepends=True)
+            found = False
 
-        # Find the closing bracket of urlpatterns
-        for i, line in enumerate(lines):
-            if ']' in line and 'urlpatterns' in content:
-                # Insert new patterns before the closing bracket
-                lines[i:i] = new_patterns
-                break
-        else:
-            # If no closing bracket found, append urlpatterns
-            if 'urlpatterns = [' not in content:
-                lines.append("\nurlpatterns = [\n")
-                lines.append("    path('admin/', admin.site.urls),\n")
-                lines.extend(new_patterns)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Assign) and any(
+                    isinstance(t, ast.Name) and t.id == 'urlpatterns' for t in node.targets
+                ):
+                    found = True
+                    start = node.lineno - 1
+                    end = start
+                    count = 0
+                    for i, line in enumerate(lines[start:], start=start):
+                        count += line.count('[') - line.count(']')
+                        if count == 0 and ']' in line:
+                            end = i
+                            break
+                    for app_line in generate_app_paths():
+                        if app_line not in lines:
+                            lines.insert(end, app_line)
+                            end += 1
+                    break
+
+            if not found:
+                lines += ["\n", "urlpatterns = [\n", "    path('admin/', admin.site.urls),\n"]
+                lines += generate_app_paths()
                 lines.append("]\n")
-            else:
-                # If urlpatterns exists but no closing bracket, append at the end
-                lines.extend(new_patterns)
 
-        # Write back the updated content
-        write_lines(urls_path, lines)
+            write_lines(urls_path, lines)
 
+        except SyntaxError:
+            content_lines = URL_IMPORTS + ["urlpatterns = [\n"] + \
+                            ["    path('admin/', admin.site.urls),\n"] + \
+                            generate_app_paths() + ["]\n"]
+            write_lines(urls_path, content_lines)
 
 # ---------------------- Context Runner : Client ---------------------- #
 
