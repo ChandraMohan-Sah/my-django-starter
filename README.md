@@ -63,19 +63,17 @@ Each setup task is a separate **module**:
 
 ### For Linux/macOS:
 ```bash
-$ pip install my-django-starter==0.1.6  # replace with actual version
+$ pip install my-django-starter==0.1.7  # replace with actual version
 $ mydjango
 ```
 
 
 ### For Windows:
 ```bash
-$ pip install my-django-starter==0.1.6  # replace with actual version
+$ pip install my-django-starter==0.1.7  # replace with actual version
 # Add mydjango.exe to PATH environment variable
 $ mydjango
 ```
-
-
 
 It will:
 
@@ -83,9 +81,36 @@ It will:
 2. Install Django  
 3. Scaffold your project and apps  
 4. Configure everything (settings, env, admin)  
-5. Launch your Django server  
+5. Creates a requirements.txt file 
+6. Create a home page and render using home app 
+7. Launch your Django server  
 
----
+
+
+## Adding New App to Existing Django Project 
+
+### For Linux/macOS:
+```bash 
+$ source myenv/bin/activate  # Activate your virtual environment
+$ cd /path/to/your-django-project
+$ mydjango-add-generalapp
+```
+
+### For Windows:
+```bash 
+$ myenv\Scripts\activate  # Activate your virtual environment
+$ cd C:\path\to\your-django-project
+$ mydjango-add-generalapp
+```
+
+It will:
+
+1. Add new app to existing project
+4. Configure everything (settings,urls)  
+3. Adds templates and static folder inside each newly created app 
+
+
+
 
 ## 📜 License
 
