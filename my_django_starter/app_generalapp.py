@@ -57,6 +57,11 @@ def add_general_app():
     # Execute pipeline
     pipeline.build_all(context)
 
+    print()
+    type_writer(f"Successfully created New App", color="CYAN")
+    print()
+
+
 if __name__ == "__main__":
     add_general_app()
 

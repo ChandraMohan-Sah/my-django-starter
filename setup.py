@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="my-django-starter",
-    version="0.1.7",
+    version="0.1.8",
     author="Chandra Mohan Sah",
     author_email="csah9628@gmail.com",
     description="A starter kit to quickly scaffold Django projects.",
@@ -22,7 +22,7 @@ setup(
     entry_points={
         "console_scripts": [
             "mydjango=my_django_starter.main:main", 
-            "mydjango-add-generalapp=my_django_starter.add_generalapp:add_general_app",  # New CLI command
+            "mydjango-add-generalapp=my_django_starter.app_generalapp:add_general_app",  # New CLI command
         ],
     },
     python_requires='>=3.6',
