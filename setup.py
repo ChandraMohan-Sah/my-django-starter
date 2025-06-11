@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="my-django-starter",
-    version="0.1.8",
+    version="0.1.9",
     author="Chandra Mohan Sah",
     author_email="csah9628@gmail.com",
     description="A starter kit to quickly scaffold Django projects.",
